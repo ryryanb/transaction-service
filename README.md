@@ -74,11 +74,23 @@ docker-compose up --build
 
 ## API Endpoints
 
-### 1. POST /transactions/pay
+### 1. POST /payment/process-payment
 
 This endpoint initiates a payment with the provided transaction details and payment method.
 
-- **Request Body**: Transaction details such as user ID, amount, and payment method.
+- **Request Body**: Transaction details such as payment id, sender account, receiver account, amount, and payment method.
+Sample:
+```
+{
+    "amount": 100.00,
+    "senderAccount": "sender_account_123",
+    "receiverAccount": "merchant_account_456",
+    "paymentMethod": "tok_visa",
+    "timestamp": "2025-04-05T12:30:00",
+    "currencyType": "USD",
+    "paymentId": "pay_id_12348"
+}
+```
 - **Response**: A created transaction object with a status of `PENDING`, `COMPLETED`, or `FAILED`.
 
 ### 2. GET /transactions/{id}
@@ -86,6 +98,8 @@ This endpoint initiates a payment with the provided transaction details and paym
 Retrieves the transaction details for a specific transaction by its ID.
 
 - **Response**: The transaction details, including the transaction status and other metadata.
+
+
 
 ## Integration with Payment Gateways
 
