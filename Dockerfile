@@ -20,5 +20,8 @@ WORKDIR /app
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Command to run the app
-ENTRYPOINT ["java", "-jar", "app.jar", "--add-opens", "java.base/java.net=ALL-UNNAMED"]
+# Set the entrypoint for the container to run the jar file with JVM arguments
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Pass the JVM arguments in the CMD (so you can modify them if needed)
+CMD ["--add-opens", "java.base/java.net=ALL-UNNAMED"]
