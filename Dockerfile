@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
 # Command to run the app
-ENTRYPOINT ["java", "-jar", "app.jar", "--add-opens", "java.base/java.net=ALL-UNNAMED"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

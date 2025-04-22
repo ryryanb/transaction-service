@@ -3,7 +3,9 @@ package com.ryanbondoc.transaction.exceptions;
 
 public class PaymentProcessingException extends RuntimeException {
 
-    public PaymentProcessingException(String message) {
+    private static final long serialVersionUID = 1L;
+
+	public PaymentProcessingException(String message) {
         super(message);
     }
 

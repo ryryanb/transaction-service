@@ -1,6 +1,7 @@
 package com.ryanbondoc.transaction.service;
 
 import java.math.BigDecimal;
+import org.springframework.context.annotation.Primary;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
+@Primary
 public class StripePaymentService implements PaymentGatewayService {
 
     @Value("${stripe.api.key}")

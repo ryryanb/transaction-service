@@ -1,13 +1,14 @@
 package com.ryanbondoc.transaction.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ryanbondoc.transaction.model.PaymentRequest;
 import com.ryanbondoc.transaction.model.PaymentResponse;
 import com.ryanbondoc.transaction.model.Transaction;
 import com.ryanbondoc.transaction.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -16,29 +17,20 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Autowired
-    private final PaymentGatewayService paymentGatewayService;
+    private final PaymentGatewayService paymentService;
+   // private final PaymentServiceFactory paymentServiceFactory;
 
-    public TransactionService(TransactionRepository transactionRepository, PaymentGatewayService paymentGatewayService) {
+    @Autowired
+    public TransactionService(TransactionRepository transactionRepository, PaymentGatewayService paymentService) {
+        
         this.transactionRepository = transactionRepository;
-        this.paymentGatewayService = paymentGatewayService;
+        this.paymentService = paymentService;
     }
 
-    public Transaction processTransaction(PaymentRequest paymentReq, String paymentMethod) {
-        Transaction transaction = new Transaction();
-        transaction.setStatus("PENDING");
-        transaction.setPaymentMethod(paymentMethod);
-        transaction = transactionRepository.save(transaction);
-
-        // Process payment through the selected gateway
-        PaymentResponse resp = paymentGatewayService.processPayment(paymentReq);
-
-        if (resp.getStatus().equals("success")) {
-            transaction.setStatus("COMPLETED");
-        } else {
-            transaction.setStatus("FAILED");
-        }
-
-        return transactionRepository.save(transaction);
+    public PaymentResponse processPayment(PaymentRequest paymentRequest) {
+        //PaymentGatewayService paymentService = paymentServiceFactory.getPaymentService(paymentRequest.getPaymentService());
+        PaymentResponse resp = paymentService.processPayment(paymentRequest);
+        return resp;
     }
 
     public Optional<Transaction> getTransactionById(Long id) {

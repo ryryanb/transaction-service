@@ -17,6 +17,7 @@ public class PaymentRequest {
     private LocalDateTime timestamp; // Timestamp
     private String currencyType; // Currency type (e.g., USD, EUR)
     private String paymentId; // Unique identifier for the request
+    private String paymentService; 
 
     // Method to generate a unique Payment ID
     private String generatePaymentId() {
