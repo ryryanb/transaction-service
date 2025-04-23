@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // Optionally set the claims in the security context or request attributes
                 request.setAttribute("userId", claims.getSubject()); // or a custom claim
             } catch (JwtException e) {
+            	e.printStackTrace();
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 response.getWriter().write("Invalid or expired token.");
                 return;
