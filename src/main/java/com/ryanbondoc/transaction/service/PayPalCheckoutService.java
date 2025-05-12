@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -29,17 +30,32 @@ import lombok.extern.slf4j.Slf4j;
 public class PayPalCheckoutService {
 
     private final PayPalHttpClient payPalClient;
+    
+    @Value("${paypal.brandName}")
+    private String brandName;
+
+    @Value("${paypal.cancelUrl}")
+    private String cancelUrl;
+
+    @Value("${paypal.returnUrl}")
+    private String returnUrl;
+
+    @Value("${paypal.landingPage}")
+    private String landingPage;
+
+    @Value("${paypal.userAction}")
+    private String userAction;
 
     public String createOrder(String currencyCode, String amount) throws IOException {
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.checkoutPaymentIntent("CAPTURE");
 
         ApplicationContext appContext = new ApplicationContext()
-                .brandName("RyanBondocStore")
-                .landingPage("NO_PREFERENCE")
-                .cancelUrl("https://example.com/cancel")
-                .returnUrl("https://example.com/return")
-                .userAction("PAY_NOW");
+                .brandName(brandName)
+                .landingPage(landingPage)
+                .cancelUrl(cancelUrl)
+                .returnUrl(returnUrl)
+                .userAction(userAction);
 
         List<PurchaseUnitRequest> purchaseUnits = new ArrayList<>();
         purchaseUnits.add(new PurchaseUnitRequest().amountWithBreakdown(new AmountWithBreakdown()
