@@ -1,5 +1,6 @@
 package com.ryanbondoc.transaction.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +10,14 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class GlobalCorsConfig {
+	
+	 @Value("${cors.allowed.domain}")
+	 private String allowedDomain;
 
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:3000"); // Frontend URL
+        corsConfiguration.addAllowedOrigin(allowedDomain); // Frontend URL
         corsConfiguration.addAllowedMethod("GET");
         corsConfiguration.addAllowedMethod("POST");
         corsConfiguration.addAllowedMethod("PUT");
